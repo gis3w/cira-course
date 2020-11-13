@@ -9,8 +9,11 @@ Created on Fri Nov 13 11:32:11 2020
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 #from rest_framework import permissions
-from sample.models import Sample
-from .serializers import SampleSerializer, SimpleSampleSerializer
+from sample.models import Sample, SampleGeo
+from .serializers import \
+    SampleSerializer, \
+    SimpleSampleSerializer, \
+    SampleGeoSerializer
 
 
 # DRF docs:
@@ -35,3 +38,12 @@ class SampleListViewSet(ListAPIView):
     """
     queryset = Sample.objects.all()
     serializer_class = SimpleSampleSerializer
+    
+
+class SampleGeoViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows samples GEO to be viewed or edited.
+    """
+    queryset = SampleGeo.objects.all()
+    serializer_class = SampleGeoSerializer
+    #permission_classes = [permissions.IsAuthenticated]

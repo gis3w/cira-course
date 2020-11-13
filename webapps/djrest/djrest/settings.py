@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'sample',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework_gis',
+    'geoadmin',
+    'leaflet'
 ]
 
 MIDDLEWARE = [

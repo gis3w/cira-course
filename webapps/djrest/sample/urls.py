@@ -12,6 +12,7 @@ from .api import views
 
 router = routers.DefaultRouter()
 router.register(r'samples', views.SampleViewSet)
+router.register(r'samplegeos', views.SampleGeoViewSet)
 
 urlpatterns = [
         #path('', home_view),
