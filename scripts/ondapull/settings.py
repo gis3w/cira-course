@@ -1,9 +1,4 @@
-# DATI DI ACCESSO AD ONDA BIAS
-# ============================
-
-OB_USERNAME = ''
-OB_PASSWORD = ''
-
+from local_settings import *
 
 # ENDPOINT SERVICE
 # ================
@@ -16,3 +11,8 @@ OB_PATH_PRODUCTS_DOWNLOAD = 'Products({})/$value'
 # ===============
 OB_TPL_METADATA = "$expand=Metadata"
 OB_TPL_PAGING = "$skip={}&$top={}"
+
+# Subset searching templates
+# --------------------------
+OB_TPL_SEARCHING_TIME_FROM = "beginPosition:[{}]"
+OB_TPL_SEARCHING_TIME_TO = "endPosition:[{}]"

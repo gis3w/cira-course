@@ -4,6 +4,10 @@ import json
 import base64
 from tqdm import tqdm
 
+# Import logging
+from log import logging
+
+logger = logging.getLogger('Ondadias puler')
 
 # Querying products paging results:
 # 1 item for page
@@ -11,12 +15,17 @@ from tqdm import tqdm
 
 url = settings.SERVICE_URL + settings.OB_PATH_PRODUCTS + '?' + settings.OB_TPL_PAGING.format(0, 1)
 
+# Querying Sentinel-3 SRAL Products
+url += '&$search="instrumentShortName:SRAL"'
+
 
 response = requests.get(url)
 
 #controlliamo che non ci siano errori nella risposta e nel caso stampiamo a video i messaggio
 if response.status_code != 200:
-    raise Exception(f'Status Code: {response.status_code}, err msg: {response.content}')
+    err_msg = f'Status Code: {response.status_code}, err msg: {response.content}'
+    logger.error(err_msg)
+    raise Exception(err_msg)
 
 
 jresponse = json.loads(response.content)
@@ -36,8 +45,12 @@ for k, v in product.items():
 if 'quicklook' in product and product['quicklook']:
     with open(f"images/quicklook_{product['id']}.png", "wb") as fh:
         fh.write(base64.decodebytes(str.encode(product['quicklook'])))
+    logger.debug(f"Quicklook image saved for product id: {product['id']}")
 else:
-    print (f"No 'quicklook' data available for product {product['id']}")
+    msg = f"No 'quicklook' data available for product {product['id']}"
+    print (msg)
+    logger.debug(msg)
+
 
 
 # facciamo il download della risorsa se disponibile
@@ -56,5 +69,7 @@ if product['downloadable']:
                 pbar.update(counter)
                 out_file.write(chunk)
                 counter += 1
-        #logger.info('Download finished successfully')
+        logger.debug(f"{product['name']}: Download finished successfully")
+else:
+    logger.debug(f"{product['name']} is not downloadable!")
 
